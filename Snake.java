@@ -37,7 +37,7 @@ public class Snake extends JPanel {
         addKeyListener(new BlockListener());
         this.setFocusable(true);
         play = new JButton("Play Again");
-        add(play);
+        this.add(play);
         play.setVisible(false);
 
     }

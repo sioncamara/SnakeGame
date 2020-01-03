@@ -6,7 +6,10 @@ public class Food {
     private int x;
     private int y;
     private int bd = 40;
-    private int rxs = 80, rxe = 2560, rys = 80, rye = 1360;
+    private int rxs = 80;
+    private int rxe = 2560;
+    private int rys = 80;
+    private int rye = 1360;
 
 
 
