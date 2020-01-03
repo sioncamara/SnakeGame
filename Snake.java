@@ -7,11 +7,13 @@ import java.util.logging.Logger;
 
 public class Snake extends JPanel {
 
-    private final int WIDTH = 3700, HEIGHT = 1600, bwidth = 35, bheight = 35, bd = 40, add = 10;
+    private final int WIDTH = 1460, HEIGHT = 900, bwidth = 35, bheight = 35, bd = 40, add = 10;
     private boolean Left, Up, Down, Right;
     private Font font = new Font("Roman", Font.ROMAN_BASELINE, 38);;
     private Food f = new Food();
-    private int rFirstx = 80, rFirsty = 80, rx = 2560, ry = 1360;
+
+    // x and y corrdinated for the start and end of game play area
+    private int gameAreaStartX = 80, gameAreaStartY = 80, gameAreaEndx = 860, gameAreadEndY = 360;
     private ArrayList<Block> BlockList = new ArrayList<Block>();
     private Direction d;
     private JButton play;
@@ -36,7 +38,7 @@ public class Snake extends JPanel {
         super.paintComponent(page);
         Graphics2D g = (Graphics2D) page;
         g.setColor(Color.getHSBColor(.623f, .9f, .5f));
-        g.fillRect(rFirstx, rFirsty, rx, ry);
+        g.fillRect(gameAreaStartX, gameAreaStartY, gameAreaEndx, gameAreadEndY);
         g.setColor(Color.yellow);
         for (Block drawBlock : BlockList) {
             g.fillRect(drawBlock.x, drawBlock.y, bwidth, bheight);
@@ -45,7 +47,7 @@ public class Snake extends JPanel {
         g.setColor(Color.red);
         g.fillRect(f.x(), f.y(), bwidth, bheight);
         int length = BlockList.size();
-        g.setColor(Color.WHITE);
+        g.setColor(Color.black);
         g.setFont(font);
         g.drawString("Length: " + length, WIDTH - 350, HEIGHT - 60);
 
@@ -125,9 +127,9 @@ public class Snake extends JPanel {
     public boolean boundry() {
         int x = BlockList.get(0).x;
         int y = BlockList.get(0).y;
-        if (x > rx + 40 || x < rFirstx) {
+        if (x > gameAreaEndx + 40 || x < gameAreaStartX) {
             return true;
-        } else if (y > ry + 40 || y < rFirsty) {
+        } else if (y > gameAreadEndY + 40 || y < gameAreaStartY) {
             return true;
         } else {
             return false;
