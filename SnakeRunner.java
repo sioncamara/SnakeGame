@@ -5,10 +5,9 @@ public class SnakeRunner {
     public static void main (String[] args)
     {
         JFrame snakeFrame = new JFrame ("Snake");
-        Snake s = new Snake();
+        SnakePanel panel = new SnakePanel();
         snakeFrame.setDefaultCloseOperation (JFrame.EXIT_ON_CLOSE);
-        snakeFrame.getContentPane().add (s);
-
+        snakeFrame.getContentPane().add(panel);
         snakeFrame.pack();
         snakeFrame.setVisible(true);
 
@@ -18,9 +17,9 @@ public class SnakeRunner {
 
 
         while(true) {
-            s.move();
-            s.eatfood();
-            s.repaint();
+            panel.move();
+            panel.eatfood();
+            panel.repaint();
 
             try {
                 Thread.sleep(60);

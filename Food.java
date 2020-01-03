@@ -5,10 +5,10 @@ public class Food {
     private int x;
     private int y;
     private int bd = 40;
-    private int areaStartX = Snake.gameAreaStartX;
-    private int areaStartY = Snake.gameAreaStartY;
-    private int areaEndx = Snake.gameAreaEndx;
-    private int areadEndY = Snake.gameAreadEndY;
+    private int areaStartX = SnakePanel.gameAreaStartX;
+    private int areaStartY = SnakePanel.gameAreaStartY;
+    private int areaEndx = SnakePanel.gameAreaEndx;
+    private int areadEndY = SnakePanel.gameAreaEndY;
 
 
 
@@ -30,7 +30,7 @@ public class Food {
 
 
 
-    public void newpoints() {
+    public void generateNewFood() {
         x = ThreadLocalRandom.current().nextInt(areaStartX, areaEndx);
         y = ThreadLocalRandom.current().nextInt(areaStartY, areadEndY);
 
@@ -47,11 +47,11 @@ public class Food {
 
     }
 
-    public int x() {
+    public int getX() {
         return x;
     }
 
-    public int y() {
+    public int getY() {
         return y;
     }
 }

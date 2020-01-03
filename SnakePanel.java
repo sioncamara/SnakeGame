@@ -5,7 +5,7 @@ import java.util.*;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-public class Snake extends JPanel {
+public class SnakePanel extends JPanel {
 
     private static  final int WINDOW_WIDTH = 1460;
     private static final int WINDOW_HEIGHT = 920;
@@ -15,20 +15,23 @@ public class Snake extends JPanel {
     private final int ADD_TO_NEW_BLOCK = 10;
     private boolean Left, Up, Down, Right;
     private Font font = new Font("Roman", Font.PLAIN, 38);
-    private Food f = new Food();
+    private Food food = new Food();
 
-    // x and y corrdinated for the start and end of game play area
+    // x and y coordinated for the start and end of game play area
     static int gameAreaStartX = 40;
     static int gameAreaStartY = 40;
     static int gameAreaEndx = WINDOW_WIDTH - 60;
-    static int gameAreadEndY = WINDOW_HEIGHT - 80;
+    static int gameAreaEndY = WINDOW_HEIGHT - 80;
 
     private ArrayList<Block> BlockList = new ArrayList<>();
     private Direction direction;
-    private JButton play;
+    private JButton playButton;
 
 
-     Snake() {
+    /**
+     *
+     */
+     SnakePanel() {
 
         setBackground(Color.getHSBColor(23, .5f, .9f));
 
@@ -36,51 +39,53 @@ public class Snake extends JPanel {
         BlockList.add(new Block(400, 400));
         addKeyListener(new BlockListener());
         this.setFocusable(true);
-        play = new JButton("Play Again");
-        this.add(play);
-        play.setVisible(false);
+        playButton = new JButton("Play Again");
+        this.add(playButton);
+        playButton.setVisible(false);
 
     }
 
     public void paintComponent(Graphics page) {
         super.paintComponent(page);
-        Graphics2D g = (Graphics2D) page;
-        g.setColor(Color.getHSBColor(.623f, .9f, .5f));
-        g.fillRect(gameAreaStartX, gameAreaStartY, gameAreaEndx, gameAreadEndY);
-        g.setColor(Color.yellow);
-        for (Block drawBlock : BlockList) {
-            g.fillRect(drawBlock.x(), drawBlock.y(), BLOCK_WIDTH, BLOCK_HEIGHT);
+        Graphics2D snakeInterface = (Graphics2D) page;
+        snakeInterface.setColor(Color.getHSBColor(.623f, .9f, .5f)); // set color of snake area
+        snakeInterface.fillRect(gameAreaStartX, gameAreaStartY, gameAreaEndx, gameAreaEndY); // create snake area
+        snakeInterface.setColor(Color.yellow); // set color of snake
+        // generate current snake
+        BlockList.forEach(block -> snakeInterface.fillRect(block.x(), block.y(), BLOCK_WIDTH, BLOCK_HEIGHT));
 
-        }
-        g.setColor(Color.red);
-        g.fillRect(f.x(), f.y(), BLOCK_WIDTH, BLOCK_HEIGHT);
+        snakeInterface.setColor(Color.red); // set color of food
+        snakeInterface.fillRect(food.getX(), food.getY(), BLOCK_WIDTH, BLOCK_HEIGHT); // draw food
+
         int length = BlockList.size();
-        g.setColor(Color.black);
-        g.setFont(font);
-        g.drawString("Length: " + length, WINDOW_WIDTH - 350, WINDOW_HEIGHT - 60);
+
+        // generate display of length
+        snakeInterface.setColor(Color.white);
+        snakeInterface.setFont(font);
+        snakeInterface.drawString("Length: " + length, WINDOW_WIDTH - 350, WINDOW_HEIGHT - 60);
 
 
 
     }
 
      void eatfood() {
-        int x = BlockList.get(0).x();
-        int y = BlockList.get(0).y();
-        int add2 = BlockList.size() - 1;
-        if (x == f.x() && y == f.y()) {
+        int x = BlockList.get(0).x(); // front of snake x coordinate
+        int y = BlockList.get(0).y(); // fornt of snake y coordinate
+        int snakeEnd = BlockList.size() - 1;
+        if (x == food.getX() && y == food.getY()) {
             for (int i = 0; i < 5; i++) {
-                if(add2 < 10){
+                if(snakeEnd < 10){
                     if (direction == Direction.DOWN) {
-                        BlockList.add(new Block(BlockList.get(add2).x(), BlockList.get(add2).y() - DISTANCE_TO_MOVE));
+                        BlockList.add(new Block(BlockList.get(snakeEnd).x(), BlockList.get(snakeEnd).y() - DISTANCE_TO_MOVE));
 
                     } else if (direction == Direction.UP) {
-                        BlockList.add(new Block(BlockList.get(add2).x(), BlockList.get(add2).y() + DISTANCE_TO_MOVE));
+                        BlockList.add(new Block(BlockList.get(snakeEnd).x(), BlockList.get(snakeEnd).y() + DISTANCE_TO_MOVE));
 
                     } else if (direction == Direction.LEFT) {
-                        BlockList.add(new Block(BlockList.get(add2).x() + DISTANCE_TO_MOVE, BlockList.get(add2).y()));
+                        BlockList.add(new Block(BlockList.get(snakeEnd).x() + DISTANCE_TO_MOVE, BlockList.get(snakeEnd).y()));
 
                     } else {
-                        BlockList.add(new Block(BlockList.get(add2).x() - DISTANCE_TO_MOVE, BlockList.get(add2).y()));
+                        BlockList.add(new Block(BlockList.get(snakeEnd).x() - DISTANCE_TO_MOVE, BlockList.get(snakeEnd).y()));
                     }
                 }
                 else
@@ -98,18 +103,18 @@ public class Snake extends JPanel {
                 }
 
             }
-            f.newpoints();
+            food.generateNewFood();
             boolean isAlone = true;
             for (Block block : BlockList) {
-                if (f.x() == block.x() && f.y() == block.y()) {
+                if (food.getX() == block.x() && food.getY() == block.y()) {
                     isAlone = false;
                 }
             }
             while (!isAlone) {
-                f.newpoints();
+                food.generateNewFood();
                 isAlone = true;
                 for (Block block : BlockList) {
-                    if (f.x() == block.x() && f.y() == block.y()) {
+                    if (food.getX() == block.x() && food.getY() == block.y()) {
                         isAlone = false;
                     }
                 }
@@ -120,9 +125,9 @@ public class Snake extends JPanel {
     }
 
     private void crash(){
-        play.setVisible(true);
-        play.setBounds(1150, 700, 400, 100);
-        play.addActionListener(this::actionPerformed);
+        playButton.setVisible(true);
+        playButton.setBounds(1150, 700, 400, 100);
+        playButton.addActionListener(this::actionPerformed);
 
     }
     private boolean boundry() {
@@ -130,7 +135,7 @@ public class Snake extends JPanel {
         int y = BlockList.get(0).y();
         if (x > gameAreaEndx + 40 || x < gameAreaStartX) {
             return true;
-        } else return y > gameAreadEndY + 40 || y < gameAreaStartY;
+        } else return y > gameAreaEndY + 40 || y < gameAreaStartY;
 
     }
 
@@ -179,7 +184,7 @@ public class Snake extends JPanel {
     }
 
     private void actionPerformed(ActionEvent e) {
-        play.setVisible(false);
+        playButton.setVisible(false);
         BlockList.clear();
         BlockList.add(new Block(400, 400));
         direction = Direction.nothing;
