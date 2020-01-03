@@ -7,8 +7,8 @@ import java.util.logging.Logger;
 
 public class Snake extends JPanel {
 
-    private final int WINDOW_WIDTH = 1460;
-    private final int WINDOW_HEIGHT = 900;
+    private static  final int WINDOW_WIDTH = 1460;
+    private static final int WINDOW_HEIGHT = 920;
     private final int BLOCK_WIDTH = 35;
     private final int BLOCK_HEIGHT = 35;
     private final int DISTANCE_TO_MOVE = 40;
@@ -18,10 +18,10 @@ public class Snake extends JPanel {
     private Food f = new Food();
 
     // x and y corrdinated for the start and end of game play area
-    private int gameAreaStartX = 50;
-    private int gameAreaStartY = 50;
-    private int gameAreaEndx = WINDOW_WIDTH - 120;
-    private int gameAreadEndY = WINDOW_HEIGHT - 100;
+    static int gameAreaStartX = 40;
+    static int gameAreaStartY = 40;
+    static int gameAreaEndx = WINDOW_WIDTH - 60;
+    static int gameAreadEndY = WINDOW_HEIGHT - 80;
 
     private ArrayList<Block> BlockList = new ArrayList<>();
     private Direction direction;

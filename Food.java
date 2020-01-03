@@ -1,4 +1,3 @@
-import java.util.Random;
 import java.util.concurrent.ThreadLocalRandom;
 
 public class Food {
@@ -6,24 +5,24 @@ public class Food {
     private int x;
     private int y;
     private int bd = 40;
-    private int rxs = 80;
-    private int rxe = 2560;
-    private int rys = 80;
-    private int rye = 1360;
+    private int areaStartX = Snake.gameAreaStartX;
+    private int areaStartY = Snake.gameAreaStartY;
+    private int areaEndx = Snake.gameAreaEndx;
+    private int areadEndY = Snake.gameAreadEndY;
 
 
 
     public Food() {
-        x = ThreadLocalRandom.current().nextInt(rxs, rxe);
-        y = ThreadLocalRandom.current().nextInt(rys, rye);
+        x = ThreadLocalRandom.current().nextInt(areaStartX, areaEndx);
+        y = ThreadLocalRandom.current().nextInt(areaStartY, areadEndY);
 
         while (x % 40 != 0) {
-            x = ThreadLocalRandom.current().nextInt(rxs, rye);
+            x = ThreadLocalRandom.current().nextInt(areaStartX, areadEndY);
         }
 
         while (y % 40 != 0) {
 
-            y = ThreadLocalRandom.current().nextInt(rys, rye);
+            y = ThreadLocalRandom.current().nextInt(areaStartY, areadEndY);
         }
 
 
@@ -32,16 +31,16 @@ public class Food {
 
 
     public void newpoints() {
-        x = ThreadLocalRandom.current().nextInt(rxs, rxe);
-        y = ThreadLocalRandom.current().nextInt(rys, rye);
+        x = ThreadLocalRandom.current().nextInt(areaStartX, areaEndx);
+        y = ThreadLocalRandom.current().nextInt(areaStartY, areadEndY);
 
         while (x % 40 != 0) {
-            x = ThreadLocalRandom.current().nextInt(rxs, rxe);
+            x = ThreadLocalRandom.current().nextInt(areaStartX, areaEndx);
 
         }
 
         while (y % 40 != 0) {
-            y = ThreadLocalRandom.current().nextInt(rys, rye);
+            y = ThreadLocalRandom.current().nextInt(areaStartY, areadEndY);
         }
 
 
