@@ -2,6 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
+      <module fileurl="file://$PROJECT_DIR$/../../eclipse Projects/P09 Camp Badger/P09 Camp Badger.iml" filepath="$PROJECT_DIR$/../../eclipse Projects/P09 Camp Badger/P09 Camp Badger.iml" />
       <module fileurl="file://$PROJECT_DIR$/SnakeGame.iml" filepath="$PROJECT_DIR$/SnakeGame.iml" />
     </modules>
   </component>

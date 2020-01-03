@@ -7,30 +7,38 @@ import java.util.logging.Logger;
 
 public class Snake extends JPanel {
 
-    private final int WIDTH = 1460, HEIGHT = 900, bwidth = 35, bheight = 35, bd = 40, add = 10;
+    private final int WINDOW_WIDTH = 1460;
+    private final int WINDOW_HEIGHT = 900;
+    private final int BLOCK_WIDTH = 35;
+    private final int BLOCK_HEIGHT = 35;
+    private final int DISTANCE_TO_MOVE = 40;
+    private final int ADD_TO_NEW_BLOCK = 10;
     private boolean Left, Up, Down, Right;
-    private Font font = new Font("Roman", Font.ROMAN_BASELINE, 38);;
+    private Font font = new Font("Roman", Font.PLAIN, 38);
     private Food f = new Food();
 
     // x and y corrdinated for the start and end of game play area
-    private int gameAreaStartX = 80, gameAreaStartY = 80, gameAreaEndx = 860, gameAreadEndY = 360;
-    private ArrayList<Block> BlockList = new ArrayList<Block>();
-    private Direction d;
+    private int gameAreaStartX = 50;
+    private int gameAreaStartY = 50;
+    private int gameAreaEndx = WINDOW_WIDTH - 120;
+    private int gameAreadEndY = WINDOW_HEIGHT - 100;
+
+    private ArrayList<Block> BlockList = new ArrayList<>();
+    private Direction direction;
     private JButton play;
 
 
-    public Snake() {
+     Snake() {
 
         setBackground(Color.getHSBColor(23, .5f, .9f));
-        setPreferredSize(new Dimension(WIDTH, HEIGHT));
+
+        setPreferredSize(new Dimension(WINDOW_WIDTH, WINDOW_HEIGHT));
         BlockList.add(new Block(400, 400));
         addKeyListener(new BlockListener());
         this.setFocusable(true);
         play = new JButton("Play Again");
         add(play);
         play.setVisible(false);
-
-
 
     }
 
@@ -41,67 +49,67 @@ public class Snake extends JPanel {
         g.fillRect(gameAreaStartX, gameAreaStartY, gameAreaEndx, gameAreadEndY);
         g.setColor(Color.yellow);
         for (Block drawBlock : BlockList) {
-            g.fillRect(drawBlock.x, drawBlock.y, bwidth, bheight);
+            g.fillRect(drawBlock.x(), drawBlock.y(), BLOCK_WIDTH, BLOCK_HEIGHT);
 
         }
         g.setColor(Color.red);
-        g.fillRect(f.x(), f.y(), bwidth, bheight);
+        g.fillRect(f.x(), f.y(), BLOCK_WIDTH, BLOCK_HEIGHT);
         int length = BlockList.size();
         g.setColor(Color.black);
         g.setFont(font);
-        g.drawString("Length: " + length, WIDTH - 350, HEIGHT - 60);
+        g.drawString("Length: " + length, WINDOW_WIDTH - 350, WINDOW_HEIGHT - 60);
 
 
 
     }
 
-    public void eatfood() {
-        int x = BlockList.get(0).x;
-        int y = BlockList.get(0).y;
+     void eatfood() {
+        int x = BlockList.get(0).x();
+        int y = BlockList.get(0).y();
         int add2 = BlockList.size() - 1;
         if (x == f.x() && y == f.y()) {
             for (int i = 0; i < 5; i++) {
                 if(add2 < 10){
-                    if (d == Direction.DOWN) {
-                        BlockList.add(new Block(BlockList.get(add2).x, BlockList.get(add2).y - bd));
+                    if (direction == Direction.DOWN) {
+                        BlockList.add(new Block(BlockList.get(add2).x(), BlockList.get(add2).y() - DISTANCE_TO_MOVE));
 
-                    } else if (d == Direction.UP) {
-                        BlockList.add(new Block(BlockList.get(add2).x, BlockList.get(add2).y + bd));
+                    } else if (direction == Direction.UP) {
+                        BlockList.add(new Block(BlockList.get(add2).x(), BlockList.get(add2).y() + DISTANCE_TO_MOVE));
 
-                    } else if (d == Direction.LEFT) {
-                        BlockList.add(new Block(BlockList.get(add2).x + bd, BlockList.get(add2).y));
+                    } else if (direction == Direction.LEFT) {
+                        BlockList.add(new Block(BlockList.get(add2).x() + DISTANCE_TO_MOVE, BlockList.get(add2).y()));
 
                     } else {
-                        BlockList.add(new Block(BlockList.get(add2).x - bd, BlockList.get(add2).y));
+                        BlockList.add(new Block(BlockList.get(add2).x() - DISTANCE_TO_MOVE, BlockList.get(add2).y()));
                     }
                 }
                 else
-                if (d == Direction.DOWN) {
-                    BlockList.add(new Block(BlockList.get(add).x, BlockList.get(add).y - bd));
+                if (direction == Direction.DOWN) {
+                    BlockList.add(new Block(BlockList.get(ADD_TO_NEW_BLOCK).x(), BlockList.get(ADD_TO_NEW_BLOCK).y() - DISTANCE_TO_MOVE));
 
-                } else if (d == Direction.UP) {
-                    BlockList.add(new Block(BlockList.get(add).x, BlockList.get(add).y + bd));
+                } else if (direction == Direction.UP) {
+                    BlockList.add(new Block(BlockList.get(ADD_TO_NEW_BLOCK).x(), BlockList.get(ADD_TO_NEW_BLOCK).y() + DISTANCE_TO_MOVE));
 
-                } else if (d == Direction.LEFT) {
-                    BlockList.add(new Block(BlockList.get(add).x + bd, BlockList.get(add).y));
+                } else if (direction == Direction.LEFT) {
+                    BlockList.add(new Block(BlockList.get(ADD_TO_NEW_BLOCK).x() + DISTANCE_TO_MOVE, BlockList.get(ADD_TO_NEW_BLOCK).y()));
 
                 } else {
-                    BlockList.add(new Block(BlockList.get(add).x - bd, BlockList.get(add).y));
+                    BlockList.add(new Block(BlockList.get(ADD_TO_NEW_BLOCK).x() - DISTANCE_TO_MOVE, BlockList.get(ADD_TO_NEW_BLOCK).y()));
                 }
 
             }
             f.newpoints();
             boolean isAlone = true;
-            for (int i = 0; i < BlockList.size(); i++) {
-                if (f.x() == BlockList.get(i).x && f.y() == BlockList.get(i).y) {
+            for (Block block : BlockList) {
+                if (f.x() == block.x() && f.y() == block.y()) {
                     isAlone = false;
                 }
             }
             while (!isAlone) {
                 f.newpoints();
                 isAlone = true;
-                for (int i = 0; i < BlockList.size(); i++) {
-                    if (f.x() == BlockList.get(i).x && f.y() == BlockList.get(i).y) {
+                for (Block block : BlockList) {
+                    if (f.x() == block.x() && f.y() == block.y()) {
                         isAlone = false;
                     }
                 }
@@ -111,38 +119,27 @@ public class Snake extends JPanel {
         }
     }
 
-    public void crash(){
+    private void crash(){
         play.setVisible(true);
         play.setBounds(1150, 700, 400, 100);
-        play.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                play.setVisible(false);
-                BlockList.clear();
-                BlockList.add(new Block(400,400));
-                d = Direction.nothing;
-            }
-        });
+        play.addActionListener(this::actionPerformed);
 
     }
-    public boolean boundry() {
-        int x = BlockList.get(0).x;
-        int y = BlockList.get(0).y;
+    private boolean boundry() {
+        int x = BlockList.get(0).x();
+        int y = BlockList.get(0).y();
         if (x > gameAreaEndx + 40 || x < gameAreaStartX) {
             return true;
-        } else if (y > gameAreadEndY + 40 || y < gameAreaStartY) {
-            return true;
-        } else {
-            return false;
-        }
+        } else return y > gameAreadEndY + 40 || y < gameAreaStartY;
 
     }
 
-    public boolean hitbody() {
-        int x = BlockList.get(0).x;
-        int y = BlockList.get(0).y;
+    private boolean hitbody() {
+        int x = BlockList.get(0).x();
+        int y = BlockList.get(0).y();
         for (int i = 1; i < BlockList.size(); i++) {
 
-            if (x == BlockList.get(i).x && y == BlockList.get(i).y) {
+            if (x == BlockList.get(i).x() && y == BlockList.get(i).y()) {
                 return true;
             }
 
@@ -150,30 +147,30 @@ public class Snake extends JPanel {
         return false;
     }
 
-    public void move() {
+    void move() {
 
-        if (hitbody() == false && boundry() == false) {
+        if (!hitbody() && !boundry()) {
 
-            int x = BlockList.get(0).x;
-            int y = BlockList.get(0).y;
+            int x = BlockList.get(0).x();
+            int y = BlockList.get(0).y();
 
 
-            if (d == Direction.UP) {
-                BlockList.add(0, new Block(x, y - bd));
+            if (direction == Direction.UP) {
+                BlockList.add(0, new Block(x, y - DISTANCE_TO_MOVE));
                 BlockList.remove(BlockList.size() - 1);
             }
 
-            if (d == Direction.DOWN) {
-                BlockList.add(0, new Block(x, y + bd));
+            if (direction == Direction.DOWN) {
+                BlockList.add(0, new Block(x, y + DISTANCE_TO_MOVE));
                 BlockList.remove(BlockList.size() - 1);
             }
-            if (d == Direction.LEFT) {
-                BlockList.add(0, new Block(x - bd, y));
+            if (direction == Direction.LEFT) {
+                BlockList.add(0, new Block(x - DISTANCE_TO_MOVE, y));
                 BlockList.remove(BlockList.size() - 1);
             }
 
-            if (d == Direction.RIGHT) {
-                BlockList.add(0, new Block(x + bd, y));
+            if (direction == Direction.RIGHT) {
+                BlockList.add(0, new Block(x + DISTANCE_TO_MOVE, y));
                 BlockList.remove(BlockList.size() - 1);
             }
         }
@@ -181,11 +178,17 @@ public class Snake extends JPanel {
 
     }
 
-    public enum Direction {
-        RIGHT, LEFT, UP, DOWN, nothing;
-
+    private void actionPerformed(ActionEvent e) {
+        play.setVisible(false);
+        BlockList.clear();
+        BlockList.add(new Block(400, 400));
+        direction = Direction.nothing;
     }
 
+    public enum Direction {
+        RIGHT, LEFT, UP, DOWN, nothing
+
+    }
     private class BlockListener implements KeyListener {
 
         public void keyPressed(KeyEvent e) {
@@ -196,23 +199,23 @@ public class Snake extends JPanel {
                 Logger.getLogger(SnakeRunner.class.getName()).log(Level.SEVERE, null, ex);
             }
 
-            if ((e.getKeyCode() == KeyEvent.VK_RIGHT || e.getKeyCode() == KeyEvent.VK_D) && (d != Direction.LEFT || BlockList.size() == 1) ) {
-                d = Direction.RIGHT;
+            if ((e.getKeyCode() == KeyEvent.VK_RIGHT || e.getKeyCode() == KeyEvent.VK_D) && (direction != Direction.LEFT || BlockList.size() == 1) ) {
+                direction = Direction.RIGHT;
 
 
             }
 
-            else if ((e.getKeyCode() == KeyEvent.VK_LEFT || e.getKeyCode() == KeyEvent.VK_A) && (d != Direction.RIGHT || BlockList.size() ==1)) {
-                d = Direction.LEFT;
+            else if ((e.getKeyCode() == KeyEvent.VK_LEFT || e.getKeyCode() == KeyEvent.VK_A) && (direction != Direction.RIGHT || BlockList.size() ==1)) {
+                direction = Direction.LEFT;
             }
 
-            else if ((e.getKeyCode() == KeyEvent.VK_UP || e.getKeyCode() == KeyEvent.VK_W) && (d != Direction.DOWN || BlockList.size() == 1)) {
-                d = Direction.UP;
+            else if ((e.getKeyCode() == KeyEvent.VK_UP || e.getKeyCode() == KeyEvent.VK_W) && (direction != Direction.DOWN || BlockList.size() == 1)) {
+                direction = Direction.UP;
 
             }
 
-            else  if ((e.getKeyCode() == KeyEvent.VK_DOWN || e.getKeyCode() == KeyEvent.VK_S) && (d != Direction.UP || BlockList.size() == 1)) {
-                d = Direction.DOWN;
+            else  if ((e.getKeyCode() == KeyEvent.VK_DOWN || e.getKeyCode() == KeyEvent.VK_S) && (direction != Direction.UP || BlockList.size() == 1)) {
+                direction = Direction.DOWN;
 
             }
 
@@ -229,5 +232,6 @@ public class Snake extends JPanel {
 
         }
     }
+
 
 }
