@@ -47,7 +47,7 @@ public class SnakePanel extends JPanel {
 
     /**
      * paints the interface where the game is played
-     * @param page
+     * @param page user interface to build on top off
      */
     protected void paintComponent(Graphics page) {
         super.paintComponent(page);
@@ -126,25 +126,7 @@ public class SnakePanel extends JPanel {
         } while(!foodNotOnSnake);
     }
 
-    private void generateNewFood2(){
-        food.generateNewFood();
-        boolean foodNotOnSnake = true;
-        for (int i = 0; i < BlockList.size(); i++) {
-            if (food.getX() == BlockList.get(i).getX() && food.getY() == BlockList.get(i).getY()) {
-                foodNotOnSnake = false;
-            }
-        }
-        while (!foodNotOnSnake) {
-            food.generateNewFood();
-            foodNotOnSnake = true;
-            for (int i = 0; i < BlockList.size(); i++) {
-                if (food.getX() == BlockList.get(i).getX() && food.getY() == BlockList.get(i).getY()) {
-                    foodNotOnSnake = false;
-                }
-            }
 
-        }
-    }
 
     private void endTurn(){
         playButton.setVisible(true);
