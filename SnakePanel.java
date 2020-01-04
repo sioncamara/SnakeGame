@@ -18,10 +18,10 @@ public class SnakePanel extends JPanel {
     private Food food = new Food();
 
     // x and y coordinated for the start and end of game play area
-    static int gameAreaStartX = 80;
-    static int gameAreaStartY = 80;
+    static int gameAreaStartX = 40;
+    static int gameAreaStartY = 40;
     static int gameAreaEndx = WINDOW_WIDTH - 100;
-    static int gameAreaEndY = WINDOW_HEIGHT - 80;
+    static int gameAreaEndY = WINDOW_HEIGHT - 120;
 
     private ArrayList<Block> BlockList = new ArrayList<>();
     private Direction direction;
@@ -105,17 +105,24 @@ public class SnakePanel extends JPanel {
                 }
 
             }
-           // food.generateNewFood();
-            boolean foodNotOnSnake = true;
-
-            do {
-                food.generateNewFood();
-                for (Block block : BlockList)
-                    if (food.getX() == block.getX() && food.getY() == block.getY()) foodNotOnSnake = false;
-
-            } while(!foodNotOnSnake);
+           generateNewFood();
 
         }
+    }
+
+    private void generateNewFood(){
+        boolean foodNotOnSnake = true;
+
+        do {
+            food.generateNewFood();
+            for (Block block : BlockList) {
+                if (food.getX() == block.getX() && food.getY() == block.getY()) {
+                    foodNotOnSnake = false;
+                    break;
+                }
+            }
+
+        } while(!foodNotOnSnake);
     }
 
     private void endTurn(){
@@ -127,9 +134,9 @@ public class SnakePanel extends JPanel {
     private boolean hitBoundary() {
         int x = BlockList.get(0).getX();
         int y = BlockList.get(0).getY();
-        if (x > gameAreaEndx || x < gameAreaStartX) {
+        if (x > gameAreaEndx + 40|| x < gameAreaStartX) {
             return true;
-        } else return y > gameAreaEndY || y < gameAreaStartY;
+        } else return y > gameAreaEndY + 40|| y < gameAreaStartY;
 
     }
 
