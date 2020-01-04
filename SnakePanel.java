@@ -18,9 +18,9 @@ public class SnakePanel extends JPanel {
     private Food food = new Food();
 
     // x and y coordinated for the start and end of game play area
-    static int gameAreaStartX = 40;
-    static int gameAreaStartY = 40;
-    static int gameAreaEndx = WINDOW_WIDTH - 100 - 35;
+    static int gameAreaStartX = 80;
+    static int gameAreaStartY = 80;
+    static int gameAreaEndx = WINDOW_WIDTH - 100;
     static int gameAreaEndY = WINDOW_HEIGHT - 80;
 
     private ArrayList<Block> BlockList = new ArrayList<>();
@@ -36,7 +36,7 @@ public class SnakePanel extends JPanel {
         setBackground(Color.getHSBColor(23, .5f, .9f)); // color of panel
 
         setPreferredSize(new Dimension(WINDOW_WIDTH, WINDOW_HEIGHT));
-        BlockList.add(new Block(40, 40)); // create snake
+        BlockList.add(new Block(400, 400)); // create snake
         addKeyListener(new BlockListener()); // listens for directional changes
         this.setFocusable(true); // allows snake to move
         playButton = new JButton("Play Again");
