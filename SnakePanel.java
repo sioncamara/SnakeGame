@@ -11,7 +11,7 @@ public class SnakePanel extends JPanel {
     private static final int WINDOW_HEIGHT = 920;
     private final int BLOCK_WIDTH = 35;
     private final int BLOCK_HEIGHT = 35;
-    private final int DISTANCE_TO_MOVE = 40;
+    private final int spaceBtwBlocks = 40;
     private final int nextIndex = 10;
     private boolean Left, Up, Down, Right;
     private Font font = new Font("Roman", Font.PLAIN, 38);
@@ -20,7 +20,7 @@ public class SnakePanel extends JPanel {
     // x and y coordinated for the start and end of game play area
     static int gameAreaStartX = 40;
     static int gameAreaStartY = 40;
-    static int gameAreaEndx = WINDOW_WIDTH - 60;
+    static int gameAreaEndx = WINDOW_WIDTH - 100 - 35;
     static int gameAreaEndY = WINDOW_HEIGHT - 80;
 
     private ArrayList<Block> BlockList = new ArrayList<>();
@@ -36,7 +36,7 @@ public class SnakePanel extends JPanel {
         setBackground(Color.getHSBColor(23, .5f, .9f)); // color of panel
 
         setPreferredSize(new Dimension(WINDOW_WIDTH, WINDOW_HEIGHT));
-        BlockList.add(new Block(400, 400)); // create snake
+        BlockList.add(new Block(40, 40)); // create snake
         addKeyListener(new BlockListener()); // listens for directional changes
         this.setFocusable(true); // allows snake to move
         playButton = new JButton("Play Again");
@@ -78,30 +78,30 @@ public class SnakePanel extends JPanel {
             for (int i = 0; i < 5; i++) {
                 if(snakeEnd < 10){
                     if (direction == Direction.DOWN) {
-                        BlockList.add(new Block(BlockList.get(snakeEnd).getX(), BlockList.get(snakeEnd).getY() - DISTANCE_TO_MOVE));
+                        BlockList.add(new Block(BlockList.get(snakeEnd).getX(), BlockList.get(snakeEnd).getY() - spaceBtwBlocks));
 
                     } else if (direction == Direction.UP) {
-                        BlockList.add(new Block(BlockList.get(snakeEnd).getX(), BlockList.get(snakeEnd).getY() + DISTANCE_TO_MOVE));
+                        BlockList.add(new Block(BlockList.get(snakeEnd).getX(), BlockList.get(snakeEnd).getY() + spaceBtwBlocks));
 
                     } else if (direction == Direction.LEFT) {
-                        BlockList.add(new Block(BlockList.get(snakeEnd).getX() + DISTANCE_TO_MOVE, BlockList.get(snakeEnd).getY()));
+                        BlockList.add(new Block(BlockList.get(snakeEnd).getX() + spaceBtwBlocks, BlockList.get(snakeEnd).getY()));
 
                     } else {
-                        BlockList.add(new Block(BlockList.get(snakeEnd).getX() - DISTANCE_TO_MOVE, BlockList.get(snakeEnd).getY()));
+                        BlockList.add(new Block(BlockList.get(snakeEnd).getX() - spaceBtwBlocks, BlockList.get(snakeEnd).getY()));
                     }
                 }
                 else
                 if (direction == Direction.DOWN) {
-                    BlockList.add(new Block(BlockList.get(nextIndex).getX(), BlockList.get(nextIndex).getY() - DISTANCE_TO_MOVE));
+                    BlockList.add(new Block(BlockList.get(nextIndex).getX(), BlockList.get(nextIndex).getY() - spaceBtwBlocks));
 
                 } else if (direction == Direction.UP) {
-                    BlockList.add(new Block(BlockList.get(nextIndex).getX(), BlockList.get(nextIndex).getY() + DISTANCE_TO_MOVE));
+                    BlockList.add(new Block(BlockList.get(nextIndex).getX(), BlockList.get(nextIndex).getY() + spaceBtwBlocks));
 
                 } else if (direction == Direction.LEFT) {
-                    BlockList.add(new Block(BlockList.get(nextIndex).getX() + DISTANCE_TO_MOVE, BlockList.get(nextIndex).getY()));
+                    BlockList.add(new Block(BlockList.get(nextIndex).getX() + spaceBtwBlocks, BlockList.get(nextIndex).getY()));
 
                 } else {
-                    BlockList.add(new Block(BlockList.get(nextIndex).getX() - DISTANCE_TO_MOVE, BlockList.get(nextIndex).getY()));
+                    BlockList.add(new Block(BlockList.get(nextIndex).getX() - spaceBtwBlocks, BlockList.get(nextIndex).getY()));
                 }
 
             }
@@ -155,21 +155,21 @@ public class SnakePanel extends JPanel {
 
 
             if (direction == Direction.UP) {
-                BlockList.add(0, new Block(x, y - DISTANCE_TO_MOVE));
+                BlockList.add(0, new Block(x, y - spaceBtwBlocks));
                 BlockList.remove(BlockList.size() - 1);
             }
 
             if (direction == Direction.DOWN) {
-                BlockList.add(0, new Block(x, y + DISTANCE_TO_MOVE));
+                BlockList.add(0, new Block(x, y + spaceBtwBlocks));
                 BlockList.remove(BlockList.size() - 1);
             }
             if (direction == Direction.LEFT) {
-                BlockList.add(0, new Block(x - DISTANCE_TO_MOVE, y));
+                BlockList.add(0, new Block(x - spaceBtwBlocks, y));
                 BlockList.remove(BlockList.size() - 1);
             }
 
             if (direction == Direction.RIGHT) {
-                BlockList.add(0, new Block(x + DISTANCE_TO_MOVE, y));
+                BlockList.add(0, new Block(x + spaceBtwBlocks, y));
                 BlockList.remove(BlockList.size() - 1);
             }
         }
