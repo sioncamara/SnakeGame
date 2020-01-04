@@ -1,47 +1,48 @@
 
 public class Block {
-    private int getX;
+    private int x;
     private int y;
 
-     Block(int xcoordinate, int ycoordinate){
-        getX = xcoordinate;
+    Block(int xcoordinate, int ycoordinate) {
+        x = xcoordinate;
         y = ycoordinate;
 
     }
-     int x(){
-        return getX;
+
+    int getX() {
+        return x;
     }
 
-     int y(){
+    int getY() {
         return y;
     }
 
-    public void addx(int increment){
-        getX += increment;
+    public void addx(int increment) {
+        x += increment;
     }
 
-    public void addy(int increment){
-        y+= increment;
+    public void addy(int increment) {
+        y += increment;
     }
 
-    public void subtractx(int increment){
-        getX -= increment;
-    }
-    public void subtracty(int increment){
-        y-= increment;
+    public void subtractx(int increment) {
+        x -= increment;
     }
 
-    public void setx(int value){
-        getX = value;
+    public void subtracty(int increment) {
+        y -= increment;
     }
 
-    public void sety(int value){
+    public void setx(int value) {
+        x = value;
+    }
+
+    public void sety(int value) {
         y = value;
     }
 
-    public void set(Block b)
-    {
-        this.getX = b.getX;
+    public void set(Block b) {
+        this.x = b.x;
         this.y = b.y;
     }
 
