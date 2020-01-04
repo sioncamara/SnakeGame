@@ -22,7 +22,7 @@ public class SnakeRunner {
             panel.repaint();
 
             try {
-                Thread.sleep(60);
+                Thread.sleep(80);
             } catch (InterruptedException ex) {
                 Logger.getLogger(SnakeRunner.class.getName()).log(Level.SEVERE, null, ex);
             }

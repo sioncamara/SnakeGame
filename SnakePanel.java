@@ -118,22 +118,22 @@ public class SnakePanel extends JPanel {
         }
     }
 
-    private void crash(){
+    private void endTurn(){
         playButton.setVisible(true);
         playButton.setBounds(gameAreaStartX * 14, gameAreaStartY * 5, 400, 100);
         playButton.addActionListener(e -> actionPerformed());
 
     }
-    private boolean boundry() {
+    private boolean hitBoundary() {
         int x = BlockList.get(0).getX();
         int y = BlockList.get(0).getY();
-        if (x > gameAreaEndx + 40 || x < gameAreaStartX) {
+        if (x > gameAreaEndx || x < gameAreaStartX) {
             return true;
-        } else return y > gameAreaEndY + 40 || y < gameAreaStartY;
+        } else return y > gameAreaEndY || y < gameAreaStartY;
 
     }
 
-    private boolean hitbody() {
+    private boolean hitBody() {
         int x = BlockList.get(0).getX();
         int y = BlockList.get(0).getY();
         for (int i = 1; i < BlockList.size(); i++) {
@@ -148,7 +148,7 @@ public class SnakePanel extends JPanel {
 
     void move() {
 
-        if (!hitbody() && !boundry()) {
+        if (!hitBody() && !hitBoundary()) {
 
             int x = BlockList.get(0).getX();
             int y = BlockList.get(0).getY();
@@ -173,7 +173,7 @@ public class SnakePanel extends JPanel {
                 BlockList.remove(BlockList.size() - 1);
             }
         }
-        else crash();
+        else endTurn();
 
     }
 
