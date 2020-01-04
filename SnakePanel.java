@@ -111,10 +111,11 @@ public class SnakePanel extends JPanel {
     }
 
     private void generateNewFood(){
-        boolean foodNotOnSnake = true;
+            boolean foodNotOnSnake;
 
         do {
             food.generateNewFood();
+             foodNotOnSnake = true;
             for (Block block : BlockList) {
                 if (food.getX() == block.getX() && food.getY() == block.getY()) {
                     foodNotOnSnake = false;
@@ -123,6 +124,26 @@ public class SnakePanel extends JPanel {
             }
 
         } while(!foodNotOnSnake);
+    }
+
+    private void generateNewFood2(){
+        food.generateNewFood();
+        boolean foodNotOnSnake = true;
+        for (int i = 0; i < BlockList.size(); i++) {
+            if (food.getX() == BlockList.get(i).getX() && food.getY() == BlockList.get(i).getY()) {
+                foodNotOnSnake = false;
+            }
+        }
+        while (!foodNotOnSnake) {
+            food.generateNewFood();
+            foodNotOnSnake = true;
+            for (int i = 0; i < BlockList.size(); i++) {
+                if (food.getX() == BlockList.get(i).getX() && food.getY() == BlockList.get(i).getY()) {
+                    foodNotOnSnake = false;
+                }
+            }
+
+        }
     }
 
     private void endTurn(){
