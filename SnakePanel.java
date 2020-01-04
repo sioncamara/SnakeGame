@@ -23,7 +23,7 @@ public class SnakePanel extends JPanel {
     static int gameAreaEndx = WINDOW_WIDTH - 100;
     static int gameAreaEndY = WINDOW_HEIGHT - 120;
 
-    private ArrayList<Block> BlockList = new ArrayList<>();
+    private ArrayList<Block> BlockList = new ArrayList<>(1000);
     private Direction direction;
     private JButton playButton;
 
@@ -64,13 +64,13 @@ public class SnakePanel extends JPanel {
         // generate length of snake display
         snakeInterface.setColor(Color.white);
         snakeInterface.setFont(font);
-        snakeInterface.drawString("Length: " + BlockList.size(), WINDOW_WIDTH - 350, WINDOW_HEIGHT - 60);
+        snakeInterface.drawString("Length: " + BlockList.size(), gameAreaEndx -130, gameAreaEndY + 90);
 
 
 
     }
 
-     void checkEaton() {
+     void checkIfFoodEaton() {
         int x = BlockList.get(0).getX(); // front of snake x coordinate
         int y = BlockList.get(0).getY(); // fornt of snake y coordinate
         int snakeEnd = BlockList.size() - 1;
@@ -110,6 +110,9 @@ public class SnakePanel extends JPanel {
         }
     }
 
+    /**
+     * generated a new food item for the snake to eat
+     */
     private void generateNewFood(){
             boolean foodNotOnSnake;
 
@@ -137,9 +140,9 @@ public class SnakePanel extends JPanel {
     private boolean hitBoundary() {
         int x = BlockList.get(0).getX();
         int y = BlockList.get(0).getY();
-        if (x > gameAreaEndx + 40|| x < gameAreaStartX) {
+        if (x > gameAreaEndx|| x < gameAreaStartX) {
             return true;
-        } else return y > gameAreaEndY + 40|| y < gameAreaStartY;
+        } else return y > gameAreaEndY|| y < gameAreaStartY;
 
     }
 

@@ -18,7 +18,7 @@ public class SnakeRunner {
 
         while(true) {
             panel.move();
-            panel.checkEaton();
+            panel.checkIfFoodEaton();
             panel.repaint();
 
             try {
