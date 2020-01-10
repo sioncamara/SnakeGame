@@ -59,7 +59,6 @@ public class SnakePanel extends JPanel {
         snakeGameArea.fillRect(gameAreaStartX, gameAreaStartY, gameAreaEndx, gameAreaEndY); // create snake area
 
 
-
         // generate current snake
         snakeGameArea.setColor(Color.yellow); // set color of snake
         snake.forEach(block -> snakeGameArea.fillRect(block.getX(), block.getY(), BLOCK_WIDTH, BLOCK_HEIGHT));
@@ -77,9 +76,8 @@ public class SnakePanel extends JPanel {
     }
 
 
-
     void checkIfFoodEaton() {
-        if (snake.getFirst().getX() == food.getX() &&  snake.getFirst().getY() == food.getY()) {
+        if (snake.getFirst().getX() == food.getX() && snake.getFirst().getY() == food.getY()) {
             if (direction == Direction.DOWN) {
                 growSnake(0, -spaceBtwBlocks);
 
@@ -96,24 +94,54 @@ public class SnakePanel extends JPanel {
         }
     }
 
+
     /**
      * helper method that grows snake body
      */
-    private void growSnake(int addToX, int addToY){
-        int index;
-    if(snake.size() ==1 ){
-         index = 0;
-    } else{
-        index = 1;
-    }
+    private void growSnake(int addToX, int addToY) {
 
-        for (int count = 0; count < 5; count++){
+        // case where snake hasn't grown yet
+        if (snake.size() == 1) {
+            for (int count = 0; count < 5; count++) {
+                snake.add(1, new Block(snake.get(0).getX() + addToX,
+                        snake.get(0).getY() + addToY));
+            }
+        } else {
 
-            snake.add(1, new Block(snake.get(index).getX() + addToX,
-                    snake.get(index).getY() + addToY));
-            //pause(100);
+            int index = (snake.size() - 1) / 2; // position in snake to add new block
+
+            // add five blocks to snake of length > 1
+            for (int count = 0; count < 5; count++) {
+
+                snake.add(index, new Block(snake.get(index).getX(),
+                        snake.get(index).getY()));
+
+                int addX = addToX;
+                int addY = addToY;
+                for (int i = index + 1; i < snake.size(); i++) {
+                    if (i == snake.size() - 1) { // last block in snake
+                        // do nothing
+                    } else {
+                        if (snake.get(i).getX() - spaceBtwBlocks == snake.get(i + 1).getX()) { // moving right
+                            addX = -spaceBtwBlocks;
+                            addY = 0;
+                        } else if (snake.get(i).getX() + spaceBtwBlocks == snake.get(i + 1).getX()) { // moving left
+                            addX = spaceBtwBlocks;
+                            addY = 0;
+                        } else if (snake.get(i).getY() + spaceBtwBlocks == snake.get(i + 1).getY()) { // moving up
+                            addX = 0;
+                            addY = spaceBtwBlocks;
+                        } else { // moving down
+                            addX = 0;
+                            addY = -spaceBtwBlocks;
+                        }
+                    }
+                    // move block
+                    snake.get(i).addx(addX);
+                    snake.get(i).addy(addY);
+                }
+            }
         }
-
 
     }
 
@@ -156,7 +184,6 @@ public class SnakePanel extends JPanel {
         food.generateNewFood();
         direction = Direction.NOTHING;
     }
-
 
 
     /**
@@ -205,6 +232,7 @@ public class SnakePanel extends JPanel {
 
     /**
      * checks if the snake ran into itself
+     *
      * @return true if snake head is at location of any part of body
      */
     private boolean hitBody() {
@@ -212,7 +240,6 @@ public class SnakePanel extends JPanel {
         int headY = snake.getFirst().getY(); // y coordinate of head block
         return IntStream.range(1, snake.size()).anyMatch(i -> headX == snake.get(i).getX() && headY == snake.get(i).getY());
     }
-
 
 
     public enum Direction {
@@ -224,7 +251,7 @@ public class SnakePanel extends JPanel {
 
         public void keyPressed2(KeyEvent keyPress) {
 
-            if(snake.size() == 1 || (snake.getFirst().getX() - spaceBtwBlocks != snake.get(1).getX())) {
+            if (snake.size() == 1 || (snake.getFirst().getX() - spaceBtwBlocks != snake.get(1).getX())) {
                 System.out.println("confused");
             }
 
@@ -261,31 +288,31 @@ public class SnakePanel extends JPanel {
 
             // change direction to right if right arrow key or D key is pressed. Do not change if curr direction is
             // left
-            if ((keyPress.getKeyCode() == KeyEvent.VK_RIGHT || keyPress.getKeyCode() == KeyEvent.VK_D) ) {
-                if(snake.size() == 1 || (snake.getFirst().getX() + spaceBtwBlocks != snake.get(1).getX())) {
+            if ((keyPress.getKeyCode() == KeyEvent.VK_RIGHT || keyPress.getKeyCode() == KeyEvent.VK_D)) {
+                if (snake.size() == 1 || (snake.getFirst().getX() + spaceBtwBlocks != snake.get(1).getX())) {
                     direction = Direction.RIGHT;
                 }
 
             }
 
             // change direction to left if left arrow key or A key is pressed. Do not change if curr direction is right
-            else if ((keyPress.getKeyCode() == KeyEvent.VK_LEFT || keyPress.getKeyCode() == KeyEvent.VK_A) ) {
-                if(snake.size() == 1 || (snake.getFirst().getX() - spaceBtwBlocks != snake.get(1).getX())) {
+            else if ((keyPress.getKeyCode() == KeyEvent.VK_LEFT || keyPress.getKeyCode() == KeyEvent.VK_A)) {
+                if (snake.size() == 1 || (snake.getFirst().getX() - spaceBtwBlocks != snake.get(1).getX())) {
                     direction = Direction.LEFT;
                 }
 
             }
             // change direction to up if up arrow key or W key is pressed. Do not change if curr direction is down
-            else if ((keyPress.getKeyCode() == KeyEvent.VK_UP || keyPress.getKeyCode() == KeyEvent.VK_W) ) {
-                if(snake.size() == 1 || (snake.getFirst().getY() - spaceBtwBlocks != snake.get(1).getY())) {
+            else if ((keyPress.getKeyCode() == KeyEvent.VK_UP || keyPress.getKeyCode() == KeyEvent.VK_W)) {
+                if (snake.size() == 1 || (snake.getFirst().getY() - spaceBtwBlocks != snake.get(1).getY())) {
                     direction = Direction.UP;
                 }
 
 
             }
             // change direction to down if left arrow key or s key is pressed. Do not change if curr direction is up
-            else if ((keyPress.getKeyCode() == KeyEvent.VK_DOWN || keyPress.getKeyCode() == KeyEvent.VK_S) ) {
-                if(snake.size() == 1 || (snake.getFirst().getY() + spaceBtwBlocks != snake.get(1).getY())) {
+            else if ((keyPress.getKeyCode() == KeyEvent.VK_DOWN || keyPress.getKeyCode() == KeyEvent.VK_S)) {
+                if (snake.size() == 1 || (snake.getFirst().getY() + spaceBtwBlocks != snake.get(1).getY())) {
                     direction = Direction.DOWN;
                 }
 
@@ -293,7 +320,6 @@ public class SnakePanel extends JPanel {
             }
 
         }
-
 
 
         public void keyTyped(KeyEvent e) {
