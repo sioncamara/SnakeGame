@@ -5,29 +5,24 @@ public class SnakeRunner {
     public static void main (String[] args)
     {
         JFrame snakeFrame = new JFrame ("Snake");
-        Snake s = new Snake();
+        SnakePanel snakePanel = new SnakePanel();
         snakeFrame.setDefaultCloseOperation (JFrame.EXIT_ON_CLOSE);
-        snakeFrame.getContentPane().add (s);
-
+        snakeFrame.getContentPane().add(snakePanel);
         snakeFrame.pack();
         snakeFrame.setVisible(true);
 
 
-
-
-
-
-        while(true) {
-            s.move();
-            s.eatfood();
-            s.repaint();
+        do {
+            snakePanel.move(); // moves snake
+            snakePanel.checkIfFoodEaton();
+            snakePanel.repaint();
 
             try {
-                Thread.sleep(60);
-            } catch (InterruptedException ex) {
-                Logger.getLogger(SnakeRunner.class.getName()).log(Level.SEVERE, null, ex);
+                Thread.sleep(80);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
             }
-        }
+        } while (true);
 
 
     }

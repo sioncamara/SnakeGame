@@ -1,4 +1,3 @@
-import java.util.Random;
 import java.util.concurrent.ThreadLocalRandom;
 
 public class Food {
@@ -6,21 +5,24 @@ public class Food {
     private int x;
     private int y;
     private int bd = 40;
-    private int rxs = 80, rxe = 2560, rys = 80, rye = 1360;
+    private int areaStartX = SnakePanel.gameAreaStartX;
+    private int areaStartY = SnakePanel.gameAreaStartY;
+    private int areaEndx = SnakePanel.gameAreaEndx;
+    private int areadEndY = SnakePanel.gameAreaEndY;
 
 
 
     public Food() {
-        x = ThreadLocalRandom.current().nextInt(rxs, rxe);
-        y = ThreadLocalRandom.current().nextInt(rys, rye);
+        x = ThreadLocalRandom.current().nextInt(areaStartX, areaEndx);
+        y = ThreadLocalRandom.current().nextInt(areaStartY, areadEndY);
 
         while (x % 40 != 0) {
-            x = ThreadLocalRandom.current().nextInt(rxs, rye);
+            x = ThreadLocalRandom.current().nextInt(areaStartX, areadEndY);
         }
 
         while (y % 40 != 0) {
 
-            y = ThreadLocalRandom.current().nextInt(rys, rye);
+            y = ThreadLocalRandom.current().nextInt(areaStartY, areadEndY);
         }
 
 
@@ -28,28 +30,28 @@ public class Food {
 
 
 
-    public void newpoints() {
-        x = ThreadLocalRandom.current().nextInt(rxs, rxe);
-        y = ThreadLocalRandom.current().nextInt(rys, rye);
+    public void generateNewFood() {
+        x = ThreadLocalRandom.current().nextInt(areaStartX, areaEndx);
+        y = ThreadLocalRandom.current().nextInt(areaStartY, areadEndY);
 
         while (x % 40 != 0) {
-            x = ThreadLocalRandom.current().nextInt(rxs, rxe);
+            x = ThreadLocalRandom.current().nextInt(areaStartX, areaEndx);
 
         }
 
         while (y % 40 != 0) {
-            y = ThreadLocalRandom.current().nextInt(rys, rye);
+            y = ThreadLocalRandom.current().nextInt(areaStartY, areadEndY);
         }
 
 
 
     }
 
-    public int x() {
+    public int getX() {
         return x;
     }
 
-    public int y() {
+    public int getY() {
         return y;
     }
 }
