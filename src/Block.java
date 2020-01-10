@@ -1,5 +1,5 @@
 
-public class Block {
+class Block {
     private int x;
     private int y;
 

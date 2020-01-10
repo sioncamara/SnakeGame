@@ -1,6 +1,5 @@
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import javax.swing.*;
+import javax.swing.JFrame;
+
 public class SnakeRunner {
     public static void main (String[] args)
     {
